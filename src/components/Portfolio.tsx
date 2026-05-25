@@ -9,7 +9,7 @@ const projects = [
     category: "Restaurants",
     imageStyle: "bg-gradient-to-br from-neutral-900 to-neutral-850",
     color: "neutral",
-    link: "https://bonsylhet.netlify.app/",
+    link: "https://yokososylhet.netlify.app/",
   },
   {
     title: "Dental Studio",
