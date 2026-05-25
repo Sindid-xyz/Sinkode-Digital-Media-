@@ -28,8 +28,8 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 1.2 }}
-        className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-500 rounded-2xl w-[calc(100%-2rem)] max-w-5xl ${
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+        className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-200 rounded-2xl w-[calc(100%-2rem)] max-w-5xl ${
           scrolled 
             ? "py-3.5 top-5 border border-white/15 bg-black/95 backdrop-blur-2xl shadow-[0_25px_50px_rgba(0,0,0,0.95)]" 
             : "py-6 top-8 border border-white/5 bg-transparent"
@@ -44,7 +44,7 @@ export default function Navbar() {
                 className="w-full h-full object-cover rounded-full mix-blend-screen"
               />
             </div>
-            <span className="font-sans font-bold text-xl tracking-widest uppercase transition-colors hidden sm:block text-white">
+            <span className="font-sans font-bold text-base sm:text-xl tracking-widest uppercase transition-colors text-white">
               SINKODE<span className="text-neutral-400 font-light">MEDIA</span>
             </span>
           </a>
@@ -89,6 +89,7 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15, ease: "easeInOut" }}
           className="fixed inset-x-0 top-0 z-[35] bg-black/98 border-b border-white/10 pt-28 pb-10 px-6 md:hidden flex flex-col items-center gap-6 pointer-events-auto"
         >
           {navLinks.map((link) => (
