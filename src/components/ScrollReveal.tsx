@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface ScrollRevealProps {
@@ -23,7 +23,18 @@ export default function ScrollReveal({
   className = "",
   staggerChildren = false,
 }: ScrollRevealProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   const getOffset = () => {
+    if (isMobile) return { y: 0, x: 0 }; // Remove transform offsets on mobile
     switch (direction) {
       case "up":
         return { y: 40, x: 0 };
@@ -45,8 +56,8 @@ export default function ScrollReveal({
       hidden: {},
       visible: {
         transition: {
-          staggerChildren: 0.12,
-          delayChildren: delay,
+          staggerChildren: isMobile ? 0 : 0.12, // Remove stagger delay on mobile
+          delayChildren: isMobile ? 0 : delay,
         },
       },
     };
@@ -56,7 +67,7 @@ export default function ScrollReveal({
         className={className}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-10%" }}
+        viewport={isMobile ? { once: true, margin: "-20px" } : { once: true, margin: "-10%" }}
         variants={containerVariants}
       >
         {children}
@@ -66,11 +77,11 @@ export default function ScrollReveal({
 
   const revealVariants = {
     hidden: {
-      opacity: 1,
-      y: 0,
-      x: 0,
-      scale: 1,
-      filter: "blur(0px)",
+      opacity: isMobile ? 0.95 : 0, // Near instant ready state on mobile
+      y: offset.y,
+      x: offset.x,
+      scale: scale && !isMobile ? 0.95 : 1,
+      filter: blur && !isMobile ? "blur(12px)" : "blur(0px)",
     },
     visible: {
       opacity: 1,
@@ -79,8 +90,9 @@ export default function ScrollReveal({
       scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration: 0.15,
-        delay: 0,
+        duration: isMobile ? 0.15 : duration,
+        delay: isMobile ? 0 : delay,
+        ease: isMobile ? "easeOut" : [0.16, 1, 0.3, 1], // Custom premium cubic-bezier for desktop
       },
     },
   };
@@ -90,7 +102,7 @@ export default function ScrollReveal({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={isMobile ? { once: true, margin: "-20px" } : { once: true, margin: "-10%" }}
       variants={revealVariants}
     >
       {children}
@@ -117,7 +129,18 @@ export function ScrollRevealItem({
   className = "",
   duration = 0.8,
 }: ScrollRevealItemProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   const getOffset = () => {
+    if (isMobile) return { y: 0, x: 0 };
     switch (direction) {
       case "up":
         return { y: 25, x: 0 };
@@ -136,11 +159,11 @@ export function ScrollRevealItem({
 
   const itemVariants = {
     hidden: {
-      opacity: 1,
-      y: 0,
-      x: 0,
-      scale: 1,
-      filter: "blur(0px)",
+      opacity: isMobile ? 0.95 : 0,
+      y: offset.y,
+      x: offset.x,
+      scale: scale && !isMobile ? 0.97 : 1,
+      filter: blur && !isMobile ? "blur(8px)" : "blur(0px)",
     },
     visible: {
       opacity: 1,
@@ -149,7 +172,8 @@ export function ScrollRevealItem({
       scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration: 0.15,
+        duration: isMobile ? 0.15 : duration,
+        ease: isMobile ? "easeOut" : [0.16, 1, 0.3, 1],
       },
     },
   };

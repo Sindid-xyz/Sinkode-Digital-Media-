@@ -11,11 +11,14 @@ export default function CinematicIntro({
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
-    // Elegant, minimal animation sequence
-    const t1 = setTimeout(() => setPhase(1), 500); // Start logo fade and developer image fade
-    const t2 = setTimeout(() => setPhase(2), 2000); // Crossfade logo to text and code snippets
-    const t3 = setTimeout(() => setPhase(3), 4800); // Start exit
-    const t4 = setTimeout(() => onComplete(), 5800); // Complete
+    // Elegant, minimal animation sequence optimized for device types
+    const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
+    const speedMultiplier = isMobileDevice ? 0.35 : 1; //snappy 2 second flow for mobile to optimize FCP/render
+
+    const t1 = setTimeout(() => setPhase(1), 500 * speedMultiplier); // Start logo fade and developer image fade
+    const t2 = setTimeout(() => setPhase(2), 2000 * speedMultiplier); // Crossfade logo to text and code snippets
+    const t3 = setTimeout(() => setPhase(3), 4800 * speedMultiplier); // Start exit
+    const t4 = setTimeout(() => onComplete(), 5800 * speedMultiplier); // Complete
 
     return () => {
       clearTimeout(t1);

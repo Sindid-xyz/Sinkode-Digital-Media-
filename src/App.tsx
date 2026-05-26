@@ -73,7 +73,7 @@ export default function App() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute -top-[15%] -left-[10%] w-[650px] h-[650px] bg-white rounded-full blur-[170px] opacity-[0.03]"
+          className="absolute -top-[15%] -left-[10%] w-[650px] h-[650px] bg-white rounded-full blur-[170px] opacity-[0.03] hidden md:block"
         />
 
         <motion.div
@@ -87,7 +87,7 @@ export default function App() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-[35%] -right-[15%] w-[550px] h-[550px] bg-white rounded-full blur-[160px] opacity-[0.02]"
+          className="absolute top-[35%] -right-[15%] w-[550px] h-[550px] bg-white rounded-full blur-[160px] opacity-[0.02] hidden md:block"
         />
 
         {/* Soft studio light sweep effect */}
@@ -100,7 +100,7 @@ export default function App() {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/[0.015] to-transparent pointer-events-none"
+          className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/[0.015] to-transparent pointer-events-none hidden md:block"
         />
       </div>
 

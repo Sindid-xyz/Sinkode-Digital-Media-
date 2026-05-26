@@ -1,8 +1,27 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Check } from "lucide-react";
-import { fadeUp } from "./Hero";
 import HlsBackground from "./HlsBackground";
+
+// Localized responsive fadeUp helper for optimal mobile content visibility
+const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
+
+const fadeUp = (delay: number) => {
+  if (isMobileDevice) {
+    return {
+      initial: { opacity: 1, y: 0 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, margin: "-20px" },
+      transition: { duration: 0.12, delay: 0 },
+    };
+  }
+  return {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+  };
+};
 
 const features = [
   "Fast Custom Delivery",
