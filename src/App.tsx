@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import CinematicIntro from "./components/CinematicIntro";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -137,6 +138,7 @@ export default function App() {
         <GlowDivider />
         <Footer />
       </div>
+      <Analytics />
     </div>
   );
 }
