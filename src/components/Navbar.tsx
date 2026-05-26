@@ -26,9 +26,9 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={{ y: 0 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+        transition={{ duration: 0 }}
         className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-200 rounded-2xl w-[calc(100%-2rem)] max-w-5xl ${
           scrolled 
             ? "py-3.5 top-5 border border-white/15 bg-black/95 backdrop-blur-2xl shadow-[0_25px_50px_rgba(0,0,0,0.95)]" 

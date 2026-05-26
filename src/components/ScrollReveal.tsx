@@ -66,11 +66,11 @@ export default function ScrollReveal({
 
   const revealVariants = {
     hidden: {
-      opacity: 0,
-      y: offset.y,
-      x: offset.x,
-      scale: scale ? 0.95 : 1,
-      filter: blur ? "blur(12px)" : "blur(0px)",
+      opacity: 1,
+      y: 0,
+      x: 0,
+      scale: 1,
+      filter: "blur(0px)",
     },
     visible: {
       opacity: 1,
@@ -79,9 +79,8 @@ export default function ScrollReveal({
       scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1], // Ultra-premium custom smooth animation cubic-bezier
+        duration: 0.15,
+        delay: 0,
       },
     },
   };
@@ -137,11 +136,11 @@ export function ScrollRevealItem({
 
   const itemVariants = {
     hidden: {
-      opacity: 0,
-      y: offset.y,
-      x: offset.x,
-      scale: scale ? 0.97 : 1,
-      filter: blur ? "blur(8px)" : "blur(0px)",
+      opacity: 1,
+      y: 0,
+      x: 0,
+      scale: 1,
+      filter: "blur(0px)",
     },
     visible: {
       opacity: 1,
@@ -150,8 +149,7 @@ export function ScrollRevealItem({
       scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration,
-        ease: [0.16, 1, 0.3, 1],
+        duration: 0.15,
       },
     },
   };

@@ -15,7 +15,7 @@ import InteractiveParticleBackground from "./components/InteractiveParticleBackg
 import InteractiveCursor from "./components/InteractiveCursor";
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Lock scrolling while loading
   useEffect(() => {
