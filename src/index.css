@@ -139,3 +139,20 @@ button svg,
 [role="button"] svg {
   pointer-events: none !important;
 }
+
+/* Rendering and Scroll Performance Optimizations */
+.huge-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px; /* Estimated height to prevent scrollbar layout shift */
+  will-change: transform; /* Hint to the browser for GPU promotion */
+  transform: translate3d(0, 0, 0); /* Force Hardware Acceleration */
+}
+
+/* Extra optimization for elements with transforms/animations */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+

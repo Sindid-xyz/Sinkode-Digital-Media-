@@ -95,7 +95,7 @@ export default function WhyChooseUs() {
   }, [videoUrl]);
 
   return (
-    <section className="relative py-32 bg-black border-t border-white/5 overflow-hidden">
+    <section className="relative py-32 bg-black border-t border-white/5 overflow-hidden huge-section gpu-accelerated">
       {/* Background looping muted HLS video */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden select-none pointer-events-none">
         <video

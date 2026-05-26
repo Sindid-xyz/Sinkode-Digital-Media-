@@ -5,7 +5,7 @@ import HlsBackground from "./HlsBackground";
 
 export default function Testimonials() {
   return (
-    <section className="relative py-32 bg-black border-t border-white/5 overflow-hidden">
+    <section className="relative py-32 bg-black border-t border-white/5 overflow-hidden huge-section gpu-accelerated">
       <HlsBackground opacity={0.7} overlayClass="bg-black/60" />
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">

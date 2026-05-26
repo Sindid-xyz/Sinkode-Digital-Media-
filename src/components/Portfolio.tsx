@@ -38,7 +38,7 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative py-32 bg-black border-t border-white/5 overflow-hidden"
+      className="relative py-32 bg-black border-t border-white/5 overflow-hidden huge-section gpu-accelerated"
     >
       <HlsBackground opacity={0.7} overlayClass="bg-black/60" />
       <div className="noise-bg opacity-5 pointer-events-none" />

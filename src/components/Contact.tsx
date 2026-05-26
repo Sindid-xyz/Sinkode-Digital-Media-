@@ -8,7 +8,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-32 bg-black border-t border-white/10 overflow-hidden"
+      className="relative py-32 bg-black border-t border-white/10 overflow-hidden huge-section gpu-accelerated"
     >
       <HlsBackground opacity={0.7} overlayClass="bg-black/60" />
       <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">

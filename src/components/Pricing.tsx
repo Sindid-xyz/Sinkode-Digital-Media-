@@ -6,7 +6,7 @@ export default function Pricing() {
   return (
     <section
       id="pricing"
-      className="relative py-32 bg-black border-t border-white/5 overflow-hidden"
+      className="relative py-32 bg-black border-t border-white/5 overflow-hidden huge-section gpu-accelerated"
     >
       <HlsBackground opacity={0.7} overlayClass="bg-black/60" />
       <div className="max-w-6xl mx-auto px-6 relative z-10">

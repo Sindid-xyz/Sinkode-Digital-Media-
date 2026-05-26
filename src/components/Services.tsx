@@ -83,7 +83,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative py-32 border-t border-white/5 bg-black overflow-hidden"
+      className="relative py-32 border-t border-white/5 bg-black overflow-hidden huge-section gpu-accelerated"
     >
       <HlsBackground opacity={0.65} overlayClass="bg-black/50" />
 
