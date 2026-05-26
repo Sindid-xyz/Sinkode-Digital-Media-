@@ -4,29 +4,37 @@ import { Check } from "lucide-react";
 import HlsBackground from "./HlsBackground";
 
 // Localized responsive fadeUp helper for optimal mobile content visibility
-const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
-
 const fadeUp = (delay: number) => {
+  return {
+    initial: { opacity: 1, y: 0 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.1, delay: 0 },
+  };
+};
+
+const cardFadeUp = (delay: number) => {
+  const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
   if (isMobileDevice) {
     return {
-      initial: { opacity: 1, y: 0 },
+      initial: { opacity: 0, y: 15 },
       whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-20px" },
-      transition: { duration: 0.12, delay: 0 },
+      viewport: { once: true, margin: "-10px" },
+      transition: { duration: 0.4, delay: delay * 0.3, ease: "easeOut" },
     };
   }
   return {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+    initial: { opacity: 0, y: 35, scale: 0.96, filter: "blur(6px)" },
+    whileInView: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
+    viewport: { once: true, margin: "-80px" },
+    transition: { duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] },
   };
 };
 
 const features = [
   "Fast Custom Delivery",
   "Affordable Investments",
-  "Premium Bespoke Design",
+  "Free Hosting ",
   "Perfect Mobile Responsive",
   "Technically Optimized SEO",
   "Conversion Tailored UX",
@@ -139,19 +147,19 @@ export default function WhyChooseUs() {
 
           {/* Staggered Stats Grid */}
           <div className="grid grid-cols-2 gap-4 md:gap-6">
-            <motion.div {...fadeUp(0.1)}>
+            <motion.div {...cardFadeUp(0.1)}>
               <Counter value={50} suffix="+" label="Clients Delivered" />
             </motion.div>
             
-            <motion.div {...fadeUp(0.25)}>
+            <motion.div {...cardFadeUp(0.25)}>
               <Counter value={100} suffix="%" label="Responsive UI" />
             </motion.div>
             
-            <motion.div {...fadeUp(0.4)}>
+            <motion.div {...cardFadeUp(0.4)}>
               <Counter value={2} suffix="x" label="Faster Speed" />
             </motion.div>
             
-            <motion.div {...fadeUp(0.55)}>
+            <motion.div {...cardFadeUp(0.55)}>
               <Counter value={99} suffix="%" label="Retention Rate" />
             </motion.div>
           </div>

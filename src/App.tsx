@@ -11,6 +11,7 @@ import Pricing from "./components/Pricing";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import GlowDivider from "./components/GlowDivider";
 import InteractiveParticleBackground from "./components/InteractiveParticleBackground";
 import InteractiveCursor from "./components/InteractiveCursor";
 
@@ -120,14 +121,20 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
+          <GlowDivider />
           <Services />
           <WhyChooseUs />
+          <GlowDivider />
           <Portfolio />
           <Process />
+          <GlowDivider />
           <Pricing />
+          <GlowDivider />
           <Testimonials />
+          <GlowDivider />
           <Contact />
         </main>
+        <GlowDivider />
         <Footer />
       </div>
     </div>

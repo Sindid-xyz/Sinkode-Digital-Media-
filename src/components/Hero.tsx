@@ -4,20 +4,11 @@ import { useState, useEffect } from "react";
 
 // Responsive, high-performance exported helper for other sections import
 export const fadeUp = (delay: number) => {
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
-  if (isMobile) {
-    return {
-      initial: { opacity: 1, y: 0 },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-20px" },
-      transition: { duration: 0.1, delay: 0 },
-    };
-  }
   return {
-    initial: { opacity: 0, y: 25 },
+    initial: { opacity: 1, y: 0 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-50px" },
-    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+    viewport: { once: true },
+    transition: { duration: 0.1, delay: 0 },
   };
 };
 
@@ -33,21 +24,13 @@ export default function Hero() {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Responsive luxurious fadeUp animation profiles
+  // Responsive luxurious fadeUp animation profiles - made completely instant to guarantee FCP
   const getFadeUp = (delay: number) => {
-    if (isMobile) {
-      return {
-        initial: { opacity: 1, y: 0 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-20px" },
-        transition: { duration: 0.1, delay: 0 },
-      };
-    }
     return {
-      initial: { opacity: 0, y: 30 },
+      initial: { opacity: 1, y: 0 },
       whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-50px" },
-      transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+      viewport: { once: true },
+      transition: { duration: 0.1, delay: 0 },
     };
   };
 

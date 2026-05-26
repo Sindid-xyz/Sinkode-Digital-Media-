@@ -409,13 +409,8 @@ export default function DeveloperWorkspace() {
             {codeSnippets.map((snippet, idx) => (
               <motion.div
                 key={idx}
-                initial={{ width: 0, opacity: 0 }}
+                initial={{ width: "100%", opacity: 1 }}
                 animate={{ width: "100%", opacity: 1 }}
-                transition={{
-                  delay: 4.5 + idx * 0.3,
-                  duration: 0.8,
-                  ease: "easeOut",
-                }}
                 className="overflow-hidden whitespace-nowrap"
               >
                 <span className="text-[#888]">{`>`}</span>{" "}
