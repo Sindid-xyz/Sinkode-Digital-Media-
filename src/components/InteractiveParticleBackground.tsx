@@ -101,12 +101,18 @@ export default function InteractiveParticleBackground() {
 
     // Populate objects relative to layout density
     const isMobileSize = width < 768;
-    const particleCount = isMobileSize ? 35 : 85;
+    const particleCount = isMobileSize ? 15 : 70;
 
     const particles = Array.from({ length: particleCount }, () => new Particle());
 
     // Loop
     const tick = () => {
+      // Pause updates completely if tab is out of focus to save battery/perf
+      if (document.hidden) {
+        animationFrameId = requestAnimationFrame(tick);
+        return;
+      }
+
       if (mouse.x === -1000) {
         mouse.x = mouse.targetX;
         mouse.y = mouse.targetY;
@@ -123,19 +129,25 @@ export default function InteractiveParticleBackground() {
         p1.update();
         p1.draw(ctx);
 
+        // Skip intensive constellation calculations completely on mobile for butter-smooth scrolling
+        if (isMobileSize) continue;
+
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
-          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+          // Quick bounding box check before heavy hypot function
+          if (Math.abs(p1.x - p2.x) < 140 && Math.abs(p1.y - p2.y) < 140) {
+            const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
 
-          if (dist < 150) {
-            const opacity = (1 - dist / 150) * 0.08;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            // Dynamic theme monochrome white line
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 1.5})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            if (dist < 140) {
+              const opacity = (1 - dist / 140) * 0.08;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              // Dynamic theme monochrome white line
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 1.5})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
       }

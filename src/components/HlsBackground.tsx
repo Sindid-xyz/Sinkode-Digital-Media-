@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
 interface HlsBackgroundProps {
@@ -11,19 +11,48 @@ export default function HlsBackground({
   overlayClass = "bg-black/55",
 }: HlsBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const videoUrl = "https://stream.mux.com/jPyJ2YM6Nlly7U6EyfxM01tz4D4uPE3gyJ4PYuvY62Wg.m3u8";
   const posterUrl = "https://image.mux.com/jPyJ2YM6Nlly7U6EyfxM01tz4D4uPE3gyJ4PYuvY62Wg/thumbnail.jpg?width=800&time=3";
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Use a lightweight intersection observer to monitor visibility
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: "250px", // Preload slightly before scroll to ensure seamless transitions
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !isVisible) {
+      if (video) {
+        video.pause();
+      }
+      return;
+    }
 
     let hls: Hls | null = null;
 
-    // Standard high-performance HLS loading
     if (Hls.isSupported()) {
       hls = new Hls({
-        maxMaxBufferLength: 8,
+        maxMaxBufferLength: 4, // Keep buffer small for low bandwidth footprint
+        maxBufferSize: 5 * 1024 * 1024, // 5MB limit
         enableWorker: true,
         lowLatencyMode: true,
       });
@@ -34,11 +63,12 @@ export default function HlsBackground({
       video.src = videoUrl;
     }
 
-    // Try playing automatically - mobile browsers sometimes require extra reassurance
     const handleAutoplay = () => {
-      video.play().catch(() => {
-        // Safe catch for autoplay blocks or low power saving mode
-      });
+      if (isVisible) {
+        video.play().catch(() => {
+          // Non-blocking fallback for autoplay blocks or power saving modes
+        });
+      }
     };
 
     video.addEventListener("canplay", handleAutoplay);
@@ -46,29 +76,35 @@ export default function HlsBackground({
     return () => {
       if (video) {
         video.removeEventListener("canplay", handleAutoplay);
+        video.pause();
       }
       if (hls) {
         hls.destroy();
       }
     };
-  }, [videoUrl]);
+  }, [isVisible, videoUrl]);
 
   return (
-    <div className="absolute inset-0 w-full h-full z-0 overflow-hidden select-none pointer-events-none bg-radial from-neutral-900 to-black">
+    <div
+      ref={containerRef}
+      className="absolute inset-0 w-full h-full z-0 overflow-hidden select-none pointer-events-none bg-radial from-neutral-900 to-black"
+    >
       {/* Ambient fallback gradient block to ensure zero flicker/black outline */}
       <div className="absolute inset-0 bg-neutral-950/40 z-[1]" />
       
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={posterUrl}
-        preload="auto"
-        className="w-full h-full object-cover object-center scale-102 transition-opacity duration-700"
-        style={{ opacity }}
-      />
+      {isVisible && (
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={posterUrl}
+          preload="none"
+          className="w-full h-full object-cover object-center scale-102 transition-opacity duration-300"
+          style={{ opacity }}
+        />
+      )}
       <div className={`absolute inset-0 mix-blend-multiply z-[2] ${overlayClass}`} />
     </div>
   );

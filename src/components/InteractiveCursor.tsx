@@ -18,13 +18,15 @@ export default function InteractiveCursor() {
   const cursorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Detect mobile/touch support first to prevent cursor overlay on iPads/phones
-    const checkIsMobile = () => {
-      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-      setIsMobile(hasTouch);
-    };
+    // Detect mobile/touch support first to prevent cursor overlay and listener lag
+    const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    setIsMobile(hasTouch);
+    
+    if (hasTouch) {
+      setIsVisible(false);
+      return; // Exit early! No listeners for touch interfaces!
+    }
 
-    checkIsMobile();
     setIsVisible(true);
 
     const handleMouseMove = (e: MouseEvent) => {

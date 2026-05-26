@@ -2,7 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import { fadeUp } from "./Hero";
-import Hls from "hls.js";
+import HlsBackground from "./HlsBackground";
 
 const features = [
   "Fast Custom Delivery",
@@ -67,48 +67,9 @@ const Counter = ({
 };
 
 export default function WhyChooseUs() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const videoUrl = "https://stream.mux.com/jPyJ2YM6Nlly7U6EyfxM01tz4D4uPE3gyJ4PYuvY62Wg.m3u8";
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    let hls: Hls | null = null;
-
-    if (Hls.isSupported()) {
-      hls = new Hls({
-        maxMaxBufferLength: 10,
-        enableWorker: true,
-      });
-      hls.loadSource(videoUrl);
-      hls.attachMedia(video);
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = videoUrl;
-    }
-
-    return () => {
-      if (hls) {
-        hls.destroy();
-      }
-    };
-  }, [videoUrl]);
-
   return (
     <section className="relative py-32 bg-black border-t border-white/5 overflow-hidden huge-section gpu-accelerated">
-      {/* Background looping muted HLS video */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden select-none pointer-events-none">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-70 scale-102"
-        />
-        {/* Soft elegant overlay to ensure maximum readability */}
-        <div className="absolute inset-0 bg-black/55 mix-blend-multiply" />
-      </div>
+      <HlsBackground opacity={0.7} overlayClass="bg-black/55" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
