@@ -5,11 +5,19 @@ import HlsBackground from "./HlsBackground";
 
 // Localized responsive fadeUp helper for optimal mobile content visibility
 const fadeUp = (delay: number) => {
+  const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
+  if (isMobileDevice) {
+    return {
+      initial: { opacity: 1, y: 0 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0 },
+    };
+  }
   return {
-    initial: { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.1, delay: 0 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
   };
 };
 
@@ -17,10 +25,9 @@ const cardFadeUp = (delay: number) => {
   const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
   if (isMobileDevice) {
     return {
-      initial: { opacity: 0, y: 15 },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-10px" },
-      transition: { duration: 0.4, delay: delay * 0.3, ease: "easeOut" },
+      initial: { opacity: 1, y: 0, scale: 1, filter: "none" },
+      animate: { opacity: 1, y: 0, scale: 1, filter: "none" },
+      transition: { duration: 0 },
     };
   }
   return {

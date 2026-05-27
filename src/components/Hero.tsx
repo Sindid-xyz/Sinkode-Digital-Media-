@@ -7,10 +7,9 @@ export const fadeUp = (delay: number) => {
   const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
   if (isMobileDevice) {
     return {
-      initial: { opacity: 0, y: 15 },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-10px" },
-      transition: { duration: 1.2, delay: delay * 1.3, ease: [0.16, 1, 0.3, 1] },
+      initial: { opacity: 1, y: 0 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0 },
     };
   }
   return {
@@ -37,10 +36,9 @@ export default function Hero() {
   const getFadeUp = (delay: number) => {
     if (isMobile) {
       return {
-        initial: { opacity: 0, y: 15 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-10px" },
-        transition: { duration: 1.3, delay: delay * 1.2, ease: [0.16, 1, 0.3, 1] },
+        initial: { opacity: 1, y: 0 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0 },
       };
     }
     return {
