@@ -1,0 +1,19 @@
+# robots.txt for Sinkode Media
+# Domain: https://sinkodemedia.com
+# Optimized for Google Search Console & indexing performance
+
+User-agent: *
+Allow: /
+
+# Private paths & build files to keep indexes clean
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /private/
+Disallow: /admin/
+Disallow: /config/
+Disallow: /api/
+
+# Host and Sitemap
+Host: https://sinkodemedia.com
+Sitemap: https://sinkodemedia.com/sitemap.xml
