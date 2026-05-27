@@ -32,7 +32,7 @@ export default function Contact() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 relative z-55">
             <a
-              href="https://api.whatsapp.com/send?phone=8801309334404"
+              href={CONTACT_INFO.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="group relative z-50 inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-white text-black font-extrabold transition-all duration-300 hover:bg-neutral-200 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto shadow-xl cursor-pointer pointer-events-auto text-sm uppercase"
