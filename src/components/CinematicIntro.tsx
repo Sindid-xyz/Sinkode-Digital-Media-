@@ -9,16 +9,23 @@ export default function CinematicIntro({
   onComplete: () => void;
 }) {
   const [phase, setPhase] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Elegant, minimal animation sequence optimized for device types
     const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
-    const speedMultiplier = isMobileDevice ? 0.35 : 1; //snappy 2 second flow for mobile to optimize FCP/render
+    setIsMobile(isMobileDevice);
 
-    const t1 = setTimeout(() => setPhase(1), 500 * speedMultiplier); // Start logo fade and developer image fade
-    const t2 = setTimeout(() => setPhase(2), 2000 * speedMultiplier); // Crossfade logo to text and code snippets
-    const t3 = setTimeout(() => setPhase(3), 4800 * speedMultiplier); // Start exit
-    const t4 = setTimeout(() => onComplete(), 5800 * speedMultiplier); // Complete
+    // Optimized storytelling timers for device types:
+    // Mobile is smoother, slower, and immersive; Desktop is premium & fast cinematic feel.
+    const delay1 = isMobileDevice ? 700 : 500;   // Start logo fade and developer image fade
+    const delay2 = isMobileDevice ? 2600 : 2000; // Crossfade logo to text and code snippets
+    const delay3 = isMobileDevice ? 6200 : 4800; // Start exit
+    const delay4 = isMobileDevice ? 7650 : 5800; // Complete
+
+    const t1 = setTimeout(() => setPhase(1), delay1);
+    const t2 = setTimeout(() => setPhase(2), delay2);
+    const t3 = setTimeout(() => setPhase(3), delay3);
+    const t4 = setTimeout(() => onComplete(), delay4);
 
     return () => {
       clearTimeout(t1);
@@ -33,20 +40,20 @@ export default function CinematicIntro({
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+        staggerChildren: isMobile ? 0.08 : 0.05,
+        delayChildren: 0.2,
       },
     },
   };
 
   const letter = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)", scale: 0.9 },
+    hidden: { opacity: 0, y: 15, filter: isMobile ? "none" : "blur(8px)", scale: 0.95 },
     show: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
+      filter: isMobile ? "none" : "blur(0px)",
       scale: 1,
-      transition: { duration: 1, ease: [0.2, 0.65, 0.3, 0.9] },
+      transition: { duration: isMobile ? 1.4 : 0.8, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -61,8 +68,8 @@ export default function CinematicIntro({
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, filter: "blur(10px)" }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      exit={{ opacity: 0, filter: isMobile ? "none" : "blur(10px)" }}
+      transition={{ duration: isMobile ? 1.2 : 0.8, ease: "easeInOut" }}
       className="fixed inset-0 z-[100] bg-black flex items-center justify-center font-mono pointer-events-none overflow-hidden"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.03)_0%,_#000000_70%)] opacity-80 z-10" />
@@ -73,14 +80,16 @@ export default function CinematicIntro({
           <motion.img
             src={workspaceImg}
             alt="Developer Coding"
-            initial={{ opacity: 0, scale: 1.1, filter: "brightness(0.2) blur(10px)" }}
+            initial={{ opacity: 0, scale: 1.05, filter: isMobile ? "brightness(0.25)" : "brightness(0.2) blur(10px)" }}
             animate={{ 
-              opacity: phase >= 2 ? 0.3 : 0.6, 
+              opacity: phase >= 2 ? (isMobile ? 0.22 : 0.3) : (isMobile ? 0.45 : 0.6), 
               scale: 1, 
-              filter: phase >= 2 ? "brightness(0.4) blur(4px)" : "brightness(0.6) blur(0px)"
+              filter: phase >= 2 
+                ? (isMobile ? "brightness(0.35)" : "brightness(0.4) blur(4px)") 
+                : (isMobile ? "brightness(0.55)" : "brightness(0.6) blur(0px)")
             }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 3, ease: "easeOut" }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: isMobile ? 4.0 : 3, ease: "easeOut" }}
             className="absolute inset-0 w-full h-full object-cover object-center z-0 mix-blend-screen opacity-20 filter grayscale"
           />
         )}
@@ -91,10 +100,10 @@ export default function CinematicIntro({
         <AnimatePresence>
           {phase === 1 && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
+              initial={{ opacity: 0, scale: 0.95, filter: isMobile ? "none" : "blur(8px)" }}
+              animate={{ opacity: 1, scale: 1, filter: isMobile ? "none" : "blur(0px)" }}
+              exit={{ opacity: 0, scale: 1.02, filter: isMobile ? "none" : "blur(8px)" }}
+              transition={{ duration: isMobile ? 1.4 : 1.0, ease: "easeInOut" }}
               className="absolute flex items-center justify-center"
             >
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-white/10 bg-black p-1 flex items-center justify-center shadow-[0_0_35px_rgba(255,255,255,0.1)]">
@@ -114,13 +123,13 @@ export default function CinematicIntro({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, filter: "blur(10px)", scale: 1.05 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
+              exit={{ opacity: 0, filter: isMobile ? "none" : "blur(10px)", scale: 1.02 }}
+              transition={{ duration: isMobile ? 1.2 : 0.8, ease: "easeInOut" }}
               className="absolute flex flex-col items-center w-full"
             >
               {/* Subtle coding text overlay */}
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 0.5, y: 0 }}
                 transition={{ duration: 1.5, delay: 0.5 }}
                 className="absolute -top-32 w-full max-w-lg hidden sm:block text-[10px] sm:text-xs text-neutral-500 leading-relaxed font-mono"
@@ -142,16 +151,16 @@ export default function CinematicIntro({
                 variants={container}
                 initial="hidden"
                 animate="show"
-                className="flex items-center justify-center gap-4 sm:gap-6 w-full px-4 relative z-10"
+                className="flex items-center justify-center gap-2 sm:gap-6 w-full px-4 relative z-10"
               >
-                <div className="flex text-4xl sm:text-6xl md:text-7xl font-sans font-bold text-white tracking-[0.1em] uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] font-sans">
+                <div className="flex text-3xl sm:text-6xl md:text-7xl font-sans font-bold text-white tracking-[0.08em] sm:tracking-[0.1em] uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] font-sans">
                   {"Sinkode".split("").map((char, index) => (
                     <motion.span key={`sinkode-${index}`} variants={letter} className="inline-block">
                       {char}
                     </motion.span>
                   ))}
                 </div>
-                <div className="flex text-4xl sm:text-6xl md:text-7xl font-sans font-light text-neutral-400 tracking-[0.1em] uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.05)] font-sans">
+                <div className="flex text-3xl sm:text-6xl md:text-7xl font-sans font-light text-neutral-400 tracking-[0.08em] sm:tracking-[0.1em] uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.05)] font-sans">
                   {"Media".split("").map((char, index) => (
                     <motion.span key={`media-${index}`} variants={letter} className="inline-block">
                       {char}
@@ -164,7 +173,7 @@ export default function CinematicIntro({
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: 1, opacity: 0.5 }}
                 transition={{ duration: 1.5, delay: 1.2, ease: "easeInOut" }}
-                className="h-[1px] w-32 sm:w-48 bg-gradient-to-r from-transparent via-white to-transparent mt-8 origin-center"
+                className="h-[1px] w-24 sm:w-48 bg-gradient-to-r from-transparent via-white to-transparent mt-8 origin-center"
               />
             </motion.div>
           )}

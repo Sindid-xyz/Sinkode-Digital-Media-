@@ -4,11 +4,20 @@ import { useState, useEffect } from "react";
 
 // Responsive, high-performance exported helper for other sections import
 export const fadeUp = (delay: number) => {
+  const isMobileDevice = typeof window !== "undefined" && window.innerWidth <= 768;
+  if (isMobileDevice) {
+    return {
+      initial: { opacity: 0, y: 15 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, margin: "-10px" },
+      transition: { duration: 1.2, delay: delay * 1.3, ease: [0.16, 1, 0.3, 1] },
+    };
+  }
   return {
-    initial: { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 25 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.1, delay: 0 },
+    viewport: { once: true, margin: "-40px" },
+    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
   };
 };
 
@@ -24,13 +33,21 @@ export default function Hero() {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Responsive luxurious fadeUp animation profiles - made completely instant to guarantee FCP
+  // Responsive luxurious fadeUp animation profiles
   const getFadeUp = (delay: number) => {
+    if (isMobile) {
+      return {
+        initial: { opacity: 0, y: 15 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-10px" },
+        transition: { duration: 1.3, delay: delay * 1.2, ease: [0.16, 1, 0.3, 1] },
+      };
+    }
     return {
-      initial: { opacity: 1, y: 0 },
+      initial: { opacity: 0, y: 30 },
       whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true },
-      transition: { duration: 0.1, delay: 0 },
+      viewport: { once: true, margin: "-40px" },
+      transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
     };
   };
 
@@ -47,21 +64,22 @@ export default function Hero() {
           muted
           playsInline
           preload="none"
-          className="w-full h-full object-cover opacity-70 sm:opacity-85 scale-101 will-change-transform transform-gp"
+          className="w-full h-full object-cover opacity-45 sm:opacity-75 md:opacity-80 scale-102 will-change-transform transform-gp"
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260325_120549_0cd82c36-56b3-4dd9-b190-069cfc3a623f.mp4"
+          style={{ transform: "scale(1.02)" }}
         />
-        <div className="absolute inset-0 bg-[#000000]/30 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-black/55 sm:bg-black/35 md:bg-black/25 mix-blend-multiply" />
       </div>
 
       {/* Bottom gradient fade to black */}
       <div className="absolute bottom-0 left-0 right-0 h-40 md:h-64 bg-gradient-to-t from-black to-transparent pointer-events-none z-10" />
 
       {/* Hero Content with compact mobile margins and high accessibility */}
-      <div className="max-w-5xl mx-auto w-full relative z-20 text-center pt-24 pb-12 md:pt-32 flex flex-col items-center justify-center min-h-[50vh] md:min-h-[600px]">
+      <div className="max-w-5xl mx-auto w-full relative z-20 text-center pt-20 pb-10 md:pt-32 flex flex-col items-center justify-center min-h-[50vh] md:min-h-[600px]">
         
         {/* Responsive Heading */}
         <motion.h1
-          {...getFadeUp(0.25)}
+          {...getFadeUp(0.2)}
           className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight md:tracking-[-2px] leading-[1.1] md:leading-[1.05] text-white max-w-4xl"
         >
           We Design <span className="font-serif italic font-normal text-white">Digital</span> Experiences
@@ -69,16 +87,16 @@ export default function Hero() {
 
         {/* High readability subtext */}
         <motion.p
-          {...getFadeUp(0.4)}
-          className="mt-6 md:mt-8 text-neutral-200 md:text-white font-normal text-lg sm:text-[20px] leading-[28px] md:leading-[40px] italic font-['Georgia',serif] max-w-2xl tracking-tight filter drop-shadow-md"
+          {...getFadeUp(0.35)}
+          className="mt-5 md:mt-8 text-neutral-200 md:text-white font-normal text-base sm:text-[20px] leading-[26px] md:leading-[40px] italic font-['Georgia',serif] max-w-2xl tracking-tight filter drop-shadow-md px-2"
         >
           We Build Websites That Make Businesses Look Expensive.
         </motion.p>
 
         {/* Highly premium dynamic CTA button */}
         <motion.div
-          {...getFadeUp(0.55)}
-          className="mt-8 md:mt-10 pointer-events-auto"
+          {...getFadeUp(0.5)}
+          className="mt-6 md:mt-10 pointer-events-auto"
         >
           <motion.a
             href={CONTACT_INFO.whatsapp}
